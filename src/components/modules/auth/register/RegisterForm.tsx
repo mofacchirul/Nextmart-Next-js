@@ -17,9 +17,10 @@ import Link from "next/link";
 import Logo from "@/app/assets/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema } from "./registerValidation";
-import { registeruser } from "@/services/AuthServices/indes";
+// import { registeruser } from "@/services/AuthServices/indes";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { registeruser } from "@/services/AuthServices";
 
 export default function RegisterForm() {
   const form = useForm({
@@ -41,7 +42,7 @@ const res= await registeruser(data)
 console.log(res);
 if(res?.success){
   form.reset();
-  router.push("/")
+  router.push("/login")
   toast.success(res?.message)
 }
 else{

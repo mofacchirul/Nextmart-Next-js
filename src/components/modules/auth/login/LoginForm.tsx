@@ -1,5 +1,5 @@
 "use client";
-
+// import ReCAPTCHA from "react-google-recaptcha";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,24 +13,31 @@ import { Input } from "@/components/ui/input";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Link from "next/link";
 
-
 import Logo from "@/app/assets/Logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { loginuser } from "@/services/AuthServices/indes";
+
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "./loginValidation";
+import { loginuser, reChatChaTokenVerification } from "@/services/AuthServices";
+import ReCAPTCHA from "react-google-recaptcha";
+import { useState } from "react";
+
 
 export default function LoginForm() {
+  const [recaptcha,setrecaptcha]=useState(false)
   const form = useForm({
     resolver: zodResolver(loginSchema)
   });
+  const searchform= useSearchParams();
+  const redirect=searchform.get("redirecPath")
   const router = useRouter()
 
   const {
     formState: { isSubmitting },
   } = form;
+  
 
 
 
@@ -40,8 +47,14 @@ const res= await loginuser(data)
 console.log(res);
 if(res?.success){
   form.reset();
-  router.push("/")
+  
   toast.success(res?.message)
+  if(redirect){
+    router.push(redirect)
+  }
+  else{
+    router.push("/profile")
+  }
 }
 else{
   toast.error(res.message || "Registration failed");
@@ -54,6 +67,24 @@ console.error("Registration Error:", err);
  }
   
   };
+
+
+ const handleReCaptcha = async (value: string | null) => {
+try{
+const res = await reChatChaTokenVerification(value!);
+if(res?.success){
+setrecaptcha(true)
+}
+}
+catch(err:any){
+  console.error(err)
+}
+  
+ }
+
+
+
+
 
   return (
     <div className="border-2 border-gray-300 rounded-xl flex-grow max-w-md w-full p-5">
@@ -95,19 +126,26 @@ console.error("Registration Error:", err);
               </FormItem>
             )}
           />
-        
+        <div className="py-2">
+            <ReCAPTCHA
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_CLIENT_KEY!}
+              onChange={handleReCaptcha}
+              className="mx-auto"
+            />
+          </div>
+
 
           <Button
-
+disabled={recaptcha ? false : true}
             type="submit"
             className="mt-5 w-full"
           >
-            {isSubmitting ? "Loggied...." : "login"}
+            {isSubmitting ? "Logging...." : "login"}
           </Button>
         </form>
       </Form>
       <p className="text-sm text-gray-600 text-center my-3">
-       Don't have an account ?
+       Don not have an account ?
         <Link href="/register" className="text-primary">
           Register
         </Link>

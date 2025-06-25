@@ -1,41 +1,54 @@
-import { getCurrentUser } from "@/services/AuthServices/indes";
+
+import { getCurrentUser } from "@/services/AuthServices";
 import { IUser } from "@/types";
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface IUserProviderValues {
   user: IUser | null;
   isLoading: boolean;
-  setuser: (user: IUser | null) => void;
+  setUser: (user: IUser | null) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
+const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
-const Usercontext = createContext <IUserProviderValues | undefined>(undefined);
-const UserProvider = ({children}:{children:React.ReactNode})=>{
-    const [user,setuser]= useState<IUser | null> (null)
-    const [isLoading, setIsLoading] = useState(true);
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<IUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
- const HandleUser = async()=>{
+  const handleUser = async () => {
     const user = await getCurrentUser();
-    setuser(user)
-    setIsLoading(false)
- }
- useEffect(()=>{
-      HandleUser()
- },
-[isLoading])
-    return (
-        <Usercontext.Provider value={{user,setuser,isLoading,setIsLoading}}>
-            {children}
-        </Usercontext.Provider>
-    )
-}
+    setUser(user);
+    setIsLoading(false);
+  };
 
-export const useUser=()=>{
-    const context = useContext(Usercontext)
-    if(context === undefined){
-        throw new Error("useUser must be used within a UserProvider");
-    }
-}
+  useEffect(() => {
+    handleUser();
+  }, [isLoading]);
 
-export default UserProvider
+  return (
+    <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+export const useUser = () => {
+  const context = useContext(UserContext);
+
+  if (context == undefined) {
+    throw new Error("useUser must be used within the UserProvider context");
+  }
+
+  return context;
+};
+
+export default UserProvider;
+

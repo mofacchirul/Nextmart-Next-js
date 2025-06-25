@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 
 import { FieldValues } from "react-hook-form"
-// 
+
 export const registeruser = async(useData: FieldValues)=>{
     try{
 const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`,{
@@ -61,3 +61,27 @@ export const getCurrentUser = async()=>{
     }
 }
 
+
+export const reChatChaTokenVerification = async(token:string)=>{
+  try{
+      const res = await fetch("https://www.google.com/recaptcha/api/siteverify",{
+        method:"POST",
+        headers:{
+            "Content-type":"application/x-www-form-urlencoded"
+        },
+        body:new URLSearchParams({
+            secret:process.env.NEXT_PUBLIC_RECAPTCHA_SERVER_KEY!,
+            response:token
+        })
+    })
+    return res.json()
+  }
+  catch(err:any){
+        return Error(err)
+    }
+}
+
+
+export const logout = async()=>{
+    (await cookies()).delete("accessToken")
+}
