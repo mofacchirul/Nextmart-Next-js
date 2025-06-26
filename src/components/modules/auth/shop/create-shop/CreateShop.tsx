@@ -50,10 +50,12 @@ try{
    const res = await createShop(form)
    console.log(res);
    if(res.success){
-    toast.success(res?.success)
+  toast.success(res?.message)
     router.push("/")
    }
-   
+   else {
+        toast.error(res?.message);
+      }
 }
 catch(err:any){
  console.error(err)

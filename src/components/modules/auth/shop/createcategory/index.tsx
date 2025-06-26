@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
+
 import React from 'react';
+import CreateCategory from './CreateCategory';
 
 const CreateCategoryPage = () => {
     return (
@@ -8,9 +9,7 @@ const CreateCategoryPage = () => {
                 <h1 className='text-xl font-bold'>
                     Manage Categories
                 </h1>
-                <Button>
-                 Create Category
-                </Button>
+               <CreateCategory></CreateCategory>
             </div>
         </div>
     );
