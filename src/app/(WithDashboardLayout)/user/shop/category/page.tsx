@@ -1,10 +1,15 @@
 import CreateCategoryPage from '@/components/modules/auth/shop/createcategory';
+import { getAllcategory } from '@/services/category';
 
 
-const ShopCategoryPage = () => {
+const ShopCategoryPage =async () => {
+    const {data,meta} = await getAllcategory()
+
+    console.log(meta);
+    
     return (
         <div>
-            <CreateCategoryPage></CreateCategoryPage>
+            <CreateCategoryPage categories={data}></CreateCategoryPage>
         </div>
     );
 };

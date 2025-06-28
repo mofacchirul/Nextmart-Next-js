@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 type NMImageProps={
    label?:string,
    className?:string,
-    setImageFile:Dispatch<SetStateAction<[] | File[]>>,
+ setImageFile:Dispatch<SetStateAction<[] | File[]>>,
     setImagepreview:Dispatch<SetStateAction<[] | string[]>>
 }
 

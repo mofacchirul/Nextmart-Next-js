@@ -8,6 +8,7 @@ type NMImageProps={
    className?:string,
     setImageFile:Dispatch<SetStateAction<File[]>>,
     setImagepreview:Dispatch<SetStateAction<string[]>>
+
 }
 
 const IMagePreviewer = ({setImageFile,setImagepreview,className,imagepreview}:NMImageProps) => {
