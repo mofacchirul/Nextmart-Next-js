@@ -1,10 +1,12 @@
 import CreateBrandPage from '@/components/modules/auth/shop/createbrand';
-import React from 'react';
+import { getAllbrands } from '@/services/Brand';
 
-const ShopBrandPage = () => {
+
+const ShopBrandPage =async () => {
+    const {data}= await getAllbrands()
     return (
         <div>
-            <CreateBrandPage></CreateBrandPage>
+            <CreateBrandPage brands={data}></CreateBrandPage>
         </div>
     );
 };

@@ -35,20 +35,20 @@ const CreateBrand = () => {
   const form=new FormData()
   form.append("data",JSON.stringify(data))
 
- form.append("icon",imageFile[0])
+ form.append("logo",imageFile[0])
 
     const res = await createbrand(form);
     console.log(res);
     
     if(res?.success){
          
-      toast.success(res?.message)
+      toast.success(res.message)
     
     
      
     }
     else {
-        toast.error(res?.message);
+        toast.error(res.message);
       }
 
 
@@ -64,7 +64,7 @@ const CreateBrand = () => {
         <div>
             <Dialog>
      <DialogTrigger asChild>
-        <Button>Create Category</Button>
+        <Button>Create Brand</Button>
       </DialogTrigger>
   <DialogContent>
     <DialogHeader>

@@ -35,7 +35,7 @@ Authorization:(await cookies()).get("accessToken")!.value
 export const deleteCategory = async (categoryId: string): Promise<any> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/category/${categoryId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/category/${categoryId}`,
       {
         method: "DELETE",
         headers: {

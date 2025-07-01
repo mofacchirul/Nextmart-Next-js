@@ -74,7 +74,9 @@ const handleLogout= async()=>{
     <DropdownMenuLabel>My Account</DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuItem>Profile</DropdownMenuItem>
-    <DropdownMenuItem>Dashboard</DropdownMenuItem>
+    <DropdownMenuItem>
+          <Link href={`/${user?.role}/dashboard`}>Dashboard</Link>
+    </DropdownMenuItem>
     <DropdownMenuItem>My Shop</DropdownMenuItem>
        <DropdownMenuSeparator />
     <DropdownMenuItem onClick={handleLogout} className="bg-red-500 cousor-pointer">

@@ -4,23 +4,44 @@ import { cookies } from "next/headers";
 
 import { FieldValues } from "react-hook-form"
 
-export const registeruser = async(useData: FieldValues)=>{
-    try{
-const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`,{
-    method:"POST",
-    headers:{
-        "Content-Type":"application/json"
-    },
-    body:JSON.stringify(useData)
-})
-return res.json();
+export const registeruser = async (useData: FieldValues) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(useData)
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+  
+      const loginRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: useData.email,
+          password: useData.password
+        })
+      });
+
+      const loginResult = await loginRes.json();
+
+      if (loginResult.success) {
+        (await cookies()).set("accessToken", loginResult.data.accessToken);
+      }
     }
 
-    catch(err:any){
-        return Error(err)
-    }
+    return result;
 
-}
+  } catch (err: any) {
+    return Error(err);
+  }
+};
 
 
 export const loginuser = async(useData: FieldValues)=>{

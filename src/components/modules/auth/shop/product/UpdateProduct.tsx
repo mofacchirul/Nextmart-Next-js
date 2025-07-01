@@ -23,8 +23,9 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { getAllbrands } from "@/services/Brand";
 import { getAllcategory } from "@/services/category";
-import { addProduct } from "@/services/Product";
-import { IBrand, Icategory } from "@/types";
+import {  updateProduct } from "@/services/Product";
+import { IBrand, Icategory, IProduct } from "@/types";
+// import { Value } from "@radix-ui/react-select";
 
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -38,19 +39,27 @@ import {
 } from "react-hook-form";
 import { toast } from "sonner";
 
-const AddProductForm = () => {
+const UpdateProductForm = ({product}:{product:IProduct}) => {
   const form = useForm({
     defaultValues: {
-      name: "",
-      description: "",
-      price: "",
-      category: "",
-      brand: "",
-      stock: "",
-      weight: "",
-      availableColors: [{ value: "" }],
-      keyFeatures: [{ value: "" }],
-      specification:[{key:"",value:""}],
+      name:product?.name || "",
+      description: product?.description || "",
+      price:product?.price || "",
+      category:product?.category?.name || "",
+      brand: product?.brand?.name || "",
+      stock:product?.stock || "",
+      weight:product?.weight || "",
+      availableColors: product?.availableColors?.map((color) => ({
+        value: color,
+      })) ||  [{ value: "" }],
+      keyFeatures:  product?.keyFeatures?.map((feature) => ({
+        value: feature,
+      })) || [{ value: "" }],
+
+
+      specification:  Object.entries(product?.specification || {}).map(
+        ([key, value]) => ({ key, value })
+      ) || [{key:"",value:""}],
     },
   });
    const {
@@ -58,7 +67,9 @@ const AddProductForm = () => {
   } = form;
 
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
-  const [imagePreview, setImagePreview] = useState<string[] | []>([]);
+  const [imagePreview, setImagePreview] =useState<string[] | []>(
+    product?.imageUrls || []
+  );
   const [categoris,setcategoris]=useState<Icategory[]|[]>([])
   const [brands,setbrands]=useState<IBrand[]|[]>([])
   const router = useRouter()    
@@ -68,7 +79,7 @@ const AddProductForm = () => {
     name: "availableColors",
   });
   const addcolor = () => {
-    appendcolor({ value: "" });
+    appendcolor({ value : "" });
   };
                // KeyFeatures
  const {append:appendkeyFeatures,fields:fieldsFeatures}=useFieldArray({
@@ -143,7 +154,7 @@ console.log(form);
 
 
 try{
-const res = await addProduct(formData)
+const res = await updateProduct(formData,product?._id)
 if(res?.success){
   toast.success(res.message)
   router.push("/user/shop/products")
@@ -467,4 +478,4 @@ catch(err){
   );
 };
 
-export default AddProductForm;
+export default UpdateProductForm;
