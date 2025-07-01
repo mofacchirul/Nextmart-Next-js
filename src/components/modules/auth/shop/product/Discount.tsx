@@ -12,8 +12,11 @@ import {
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { addFlashSale } from "@/services/FlashSale";
+// import { addFlashSale } from "@/services/FlashSale";
 
-
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+// import { toast } from "sonner";
 
  
 type ISelect={
@@ -21,15 +24,12 @@ select:string[]
 }
 
 
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
+
 
 
 const Discount = ({select}:ISelect) => {
 
-
-
-      const form = useForm();
+  const form = useForm();
   const {
     formState: { isSubmitting },
   } = form;
@@ -39,18 +39,21 @@ const Discount = ({select}:ISelect) => {
         product:[...select],
         discountPercentage:parseFloat(data?.discountPercentage)
     }
-try{
-const res = await addFlashSale(modifiedData)
-if(res.success){
-    toast.success(res?.message)
-}
-else{
-    toast.error(res?.message)
-}
-}
- catch(err:any){
-    return Error(err.message)
- }
+    console.log(modifiedData);
+    
+  try {
+      const res = await addFlashSale(modifiedData);
+      console.log(res);
+      
+      if (res.success) {
+        toast.success(res.message);
+        // setSelectedIds([]);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (err: any) {
+      console.error(err);
+    }
 
 
   }

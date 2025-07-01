@@ -1,7 +1,7 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import Discount from '@/components/ui/core/Discount';
+// import Discount from '@/components/modules/auth/shop/product/Discount';
 import { NMTable } from '@/components/ui/core/NHTable';
 import { IProduct } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
@@ -9,6 +9,7 @@ import { Edit, Eye, Plus, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
+import Discount from './Discount';
 
 
 const ManageProducts =({ products }: { products: IProduct[] })  => {
