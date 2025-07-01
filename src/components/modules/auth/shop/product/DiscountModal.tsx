@@ -20,14 +20,14 @@ import { toast } from "sonner";
 
  
 type ISelect={
-select:string[]
+select:string[];
 }
 
 
 
 
 
-const Discount = ({select}:ISelect) => {
+const DiscountModal = ({select}:ISelect) => {
 
   const form = useForm();
   const {
@@ -36,8 +36,8 @@ const Discount = ({select}:ISelect) => {
 
   const onSubmit :SubmitHandler<FieldValues> = async (data) => {
     const modifiedData={
-        product:[...select],
-        discountPercentage:parseFloat(data?.discountPercentage)
+         products:[...select],
+ discountPercentage: parseFloat(data?.discountPercentage),
     }
     console.log(modifiedData);
     
@@ -106,4 +106,4 @@ const Discount = ({select}:ISelect) => {
   );
 };
 
-export default Discount;
+export default DiscountModal;

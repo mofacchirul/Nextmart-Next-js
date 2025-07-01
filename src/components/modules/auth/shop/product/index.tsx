@@ -9,7 +9,8 @@ import { Edit, Eye, Plus, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
-import Discount from './Discount';
+import DiscountModal from './DiscountModal';
+
 
 
 const ManageProducts =({ products }: { products: IProduct[] })  => {
@@ -26,36 +27,37 @@ const handleView = (product: IProduct) => {
   };
 
   const columns: ColumnDef<IProduct>[] = [
-
-    {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => { 
-          if(value){
-          setSelect((prev)=>[...prev,row.original._id])
+  {
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
           }
-          else{
-setSelect(select.filter((id)=>id !== row.original._id))
-          }
-            row.toggleSelected(!!value) }}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => {
+            if (value) {
+              setSelect((prev) => [...prev, row.original._id]);
+            } else {
+              setSelect(
+                select.filter((id) => id !== row.original._id)
+              );
+            }
+            row.toggleSelected(!!value);
+          }}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
 
     
     {
@@ -150,7 +152,7 @@ setSelect(select.filter((id)=>id !== row.original._id))
           >
             Add Product <Plus />
           </Button>
-          <Discount select={select}></Discount>
+         <DiscountModal select={select}></DiscountModal>
         </div>
       </div>
       <NMTable columns={columns} data={products || []} /> 

@@ -15,33 +15,33 @@ import { deleteBrand } from "@/services/Brand";
 // import DeleteConfirmationModal from "@/components/ui/core/NMModal/DeleteConfirmationModal";
 
 const ManageBrands = ({ brands }: { brands: IBrand[] }) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
-
-  const handleDelete = (data: IBrand) => {
-    console.log(data);
-    setSelectedId(data?._id);
-    setSelectedItem(data?.name);
-    setModalOpen(true);
-  };
-
-  const handleDeleteConfirm = async () => {
-    try {
-      if (selectedId) {
-        const res = await deleteBrand(selectedId);
-        console.log(res);
-        if (res.success) {
-          toast.success(res.message);
-          setModalOpen(false);
-        } else {
-          toast.error(res.message);
-        }
-      }
-    } catch (err: any) {
-      console.error(err?.message);
-    }
-  };
+ const [isModalOpen, setModalOpen] = useState(false);
+   const [selectedId, setSelectedId] = useState<string | null>(null);
+   const [selectedItem, setSelectedItem] = useState<string | null>(null);
+   const handleDelete = (data: IBrand) => {
+     console.log(data);
+     setSelectedId(data?._id);
+     setSelectedItem(data?.name);
+     setModalOpen(true);
+   };
+   
+ 
+ const handleDeleteConfirm = async () => {
+     try {
+       if (selectedId) {
+         const res = await deleteBrand(selectedId);
+         console.log(res);
+         if (res.success) {
+           toast.success(res.message);
+           setModalOpen(false);
+         } else {
+           toast.error(res.message);
+         }
+       }
+     } catch (err: any) {
+       console.error(err?.message);
+     }
+   };
 
   const columns: ColumnDef<IBrand>[] = [
     {

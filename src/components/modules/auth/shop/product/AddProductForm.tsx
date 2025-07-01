@@ -127,7 +127,7 @@ const modifidata= {
   availableColors,
   keyFeatures,
   specification,
-      price: parseFloat(data.price),
+      price: parseInt(data.price),
       stock: parseInt(data.stock),
       weight: parseFloat(data.stock),
 }
@@ -139,11 +139,13 @@ console.log(modifidata);
     for (const file of imageFiles) {
       formData.append("images", file);
     }
-console.log(form);
+console.log(formData);
 
 
 try{
 const res = await addProduct(formData)
+console.log(res);
+
 if(res?.success){
   toast.success(res.message)
   router.push("/user/shop/products")
