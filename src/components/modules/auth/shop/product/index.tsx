@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import DiscountModal from './DiscountModal';
+// import TablePagination from '@/components/ui/core/NHTable/TablePagination';
 
 
 
@@ -156,6 +157,7 @@ const handleView = (product: IProduct) => {
         </div>
       </div>
       <NMTable columns={columns} data={products || []} /> 
+      {/* <TablePagination></TablePagination> */}
     </div>
     );
 };

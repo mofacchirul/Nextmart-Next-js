@@ -8,6 +8,11 @@ images:{
       hostname:"**"
     }
   ]
+},
+experimental:{
+  serverActions:{
+    bodySizeLimit:"5mb"
+  }
 }
 };
 

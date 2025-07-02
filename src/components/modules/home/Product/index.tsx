@@ -22,7 +22,7 @@ const ProductPage =async () => {
                 </div>  
                 <div className='grid my-4 grid-cols-3 lg:grid-cols-5 gap-5 items-center '>
                     {
-                        products.map((product:IProduct,idx:number)=>(<ProductCard key={idx} product={product}></ProductCard>))
+                        products?.slice(0, 5)?.map((product:IProduct,idx:number)=>(<ProductCard key={idx} product={product}></ProductCard>))
                     }
 
                 </div>

@@ -25,7 +25,7 @@ const CategoryHOme =async () => {
            </div>
      <div className='grid  grid-cols-3 lg:grid-cols-6 gap-8 my-5'>
          {
-              categorys.map((category:Icategory , idx:any)=>(
+              categorys?.slice(0, 6)?.map((category:Icategory , idx:any)=>(
                 <CategoryCard key={idx} category={category}></CategoryCard>
             ))
          }
