@@ -3,18 +3,19 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 // import Discount from '@/components/modules/auth/shop/product/Discount';
 import { NMTable } from '@/components/ui/core/NHTable';
-import { IProduct } from '@/types';
+import { IProduct, TMeta } from '@/types';
 import { ColumnDef } from '@tanstack/react-table';
 import { Edit, Eye, Plus, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import DiscountModal from './DiscountModal';
+import TablePagination from '@/components/ui/core/NHTable/TablePagination';
 // import TablePagination from '@/components/ui/core/NHTable/TablePagination';
 
 
 
-const ManageProducts =({ products }: { products: IProduct[] })  => {
+const ManageProducts =({ products,meta }: { products: IProduct[],meta:TMeta })  => {
      const router = useRouter();
 const [select,setSelect]=useState<string [] | []>([])
 
@@ -80,12 +81,12 @@ const handleView = (product: IProduct) => {
     {
       accessorKey: "category",
       header: "Category",
-      cell: ({ row }) => <span>{row.original.category.name}</span>,
+      cell: ({ row }) => <span>{row.original.category?.name}</span>,
     },
     {
       accessorKey: "brand",
       header: "Brand",
-      cell: ({ row }) => <span>{row.original.brand.name}</span>,
+      cell: ({ row }) => <span>{row.original.brand?.name}</span>,
     },
     {
       accessorKey: "stock",
@@ -157,7 +158,7 @@ const handleView = (product: IProduct) => {
         </div>
       </div>
       <NMTable columns={columns} data={products || []} /> 
-      {/* <TablePagination></TablePagination> */}
+      <TablePagination totalpage={meta?.totalpage}></TablePagination> 
     </div>
     );
 };
