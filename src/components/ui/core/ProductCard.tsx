@@ -17,13 +17,20 @@ import { IProduct } from "@/types";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
 
 
 const ProductCard = ({product}:{product:IProduct}) => {
   const Dispatch= useAppDispatch()
   const handleAdProduct = (product:IProduct)=>{
     Dispatch(addProducts(product))
+    toast.success(`${product.name}`)
   }
+
+
+
+
+
     return (
     <Card className="p-3">
       <CardHeader className="relative p-0 h-48">
@@ -82,6 +89,7 @@ const ProductCard = ({product}:{product:IProduct}) => {
       <CardFooter className="block p-0">
         <div className="flex gap-2 items-center justify-between">
           <Button
+          
             disabled={product?.stock === 0}
             size="sm"
             variant="outline"

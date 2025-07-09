@@ -17,9 +17,14 @@ import { logout } from "@/services/AuthServices";
 import { useUser } from "@/context/UserContext";
 import { usePathname, useRouter } from "next/navigation";
 import { protectedRotes } from "../contexts";
+import { useAppSelector } from "@/redux/hook";
+import { orderProductsSelector } from "@/redux/features/cartSlice";
 
 export default function Navbar() {
-  const {user,setIsLoading}=useUser()
+    const products = useAppSelector(orderProductsSelector);
+  const totalQuantity = products.reduce((acc, item) => acc + item.orderQuantity, 0);
+
+    const {user,setIsLoading}=useUser()
   const pathname= usePathname()
  
 const router = useRouter()
@@ -50,11 +55,19 @@ const handleLogout= async()=>{
           <Button variant="outline" className="rounded-full p-0 size-10">
             <Heart />
           </Button>
-          <Link href="/cart">
-           <Button variant="outline" className="rounded-full p-0 size-10">
-            <ShoppingBag />
-          </Button>
-          </Link>
+         <Link href="/cart">
+  <div className="relative">
+    <Button variant="outline" className="rounded-full p-0 size-10">
+      <ShoppingBag />
+    </Button>
+    {totalQuantity > 0 && (
+      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+        {totalQuantity}
+      </span>
+    )}
+  </div>
+</Link>
+
          
 
           {

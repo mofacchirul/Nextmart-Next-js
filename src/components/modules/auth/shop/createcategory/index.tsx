@@ -19,19 +19,19 @@ const CreateCategoryPage = ({categories}:TCategoryes) => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
   const handleDelete = (data: Icategory) => {
-    console.log(data);
+  
     setSelectedId(data?._id);
     setSelectedItem(data?.name);
     setModalOpen(true);
   };
-console.log(categories);
+
 
 
 const handleDeleteConfirm = async () => {
     try {
       if (selectedId) {
         const res = await deleteCategory(selectedId);
-        console.log(res);
+       
         if (res.success) {
           toast.success(res.message);
           setModalOpen(false);

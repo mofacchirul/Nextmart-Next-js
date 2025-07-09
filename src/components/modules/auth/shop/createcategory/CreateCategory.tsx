@@ -37,7 +37,7 @@ const CreateCategory = () => {
  form.append("icon",imageFile[0])
 
     const res = await createCategoy(form);
-    console.log(res);
+ 
     
     if(res?.success){
          

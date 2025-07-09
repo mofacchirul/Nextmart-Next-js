@@ -7,7 +7,7 @@ import React from 'react';
 
 const BrandPage = async() => {
     const {data:Brands}=await getAllbrands();
-    console.log(Brands);
+ 
     
     return (
         <div className='container mx-auto my-20'>

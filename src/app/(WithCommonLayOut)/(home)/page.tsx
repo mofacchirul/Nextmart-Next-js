@@ -4,7 +4,10 @@ import FlashSale from "@/components/modules/home/Felsha";
 import HeroSection from "@/components/modules/home/HeroSection";
 import ProductPage from "@/components/modules/home/Product";
 
-const HomePage =  () => {
+
+const HomePage =async  () => {
+
+  
   
   return (
     <div className="px-3 lg:px-0">

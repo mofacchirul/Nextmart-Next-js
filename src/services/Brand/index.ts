@@ -1,13 +1,16 @@
 "use server"
 
+import { getValidToken } from "@/lib/verifyToken"
 import { revalidateTag } from "next/cache"
-import { cookies } from "next/headers"
 
-export const createbrand=async(data:FormData)=>{
+
+export const createbrand=async(data:FormData)=>
+  {
+     const token= await getValidToken()
     const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/brand`,{
         method:'POST',
         headers:{
-Authorization:(await cookies()).get("accessToken")!.value
+Authorization:token
         },
         body:data
 
@@ -18,6 +21,7 @@ Authorization:(await cookies()).get("accessToken")!.value
 
 
   export const getAllbrands= async()=>{
+   
     try{
         const res= await fetch(`${process.env.NEXT_PUBLIC_API_URL}/brand`,{
             next:{
@@ -35,13 +39,14 @@ Authorization:(await cookies()).get("accessToken")!.value
 
 
   export const deleteBrand = async (brandId: string): Promise<any> => {
+     const token= await getValidToken()
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/brand/${brandId}`,
        {
         method: "DELETE",
         headers: {
-          Authorization: (await cookies()).get("accessToken")!.value,
+          Authorization: token
         },
       }
     );

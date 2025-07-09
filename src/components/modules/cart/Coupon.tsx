@@ -6,10 +6,14 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Trash } from "lucide-react";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { toast } from "sonner";
+import { useAppSelector } from "@/redux/hook";
+import { shopSelector, subtotalSelector } from "@/redux/features/cartSlice";
+import { couponSelector } from "@/services/cart";
 
 export default function Coupon() {
   const form = useForm();
-
+  const subTotal = useAppSelector(subtotalSelector);
+  const shopId = useAppSelector(shopSelector);
   const couponInput = form.watch("coupon");
 
   const handleRemoveCoupon = () => {
@@ -17,16 +21,18 @@ export default function Coupon() {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+   
     try {
-      console.log(data);
+      const res = await couponSelector(data.coupon,subTotal,shopId)
+      console.log(res);
     } catch (error: any) {
-      console.log(error);
+      // console.log(error);
       toast.error(error.message);
     }
   };
 
   return (
-    <div className="border-2 border-white bg-background brightness-105 rounded-md col-span-4  p-5 ">
+    <div className="border-2  bg-background brightness-105 rounded-md col-span-4  p-5 ">
       <div className="flex flex-col justify-between h-full">
         <h1 className="text-2xl font-bold">Use Coupon code</h1>
         <p className="text-gray-500">Enter your coupon code if you have one.</p>

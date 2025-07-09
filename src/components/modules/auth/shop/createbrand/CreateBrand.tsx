@@ -38,7 +38,7 @@ const CreateBrand = () => {
  form.append("logo",imageFile[0])
 
     const res = await createbrand(form);
-    console.log(res);
+
     
     if(res?.success){
          

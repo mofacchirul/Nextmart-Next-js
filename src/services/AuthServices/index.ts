@@ -33,6 +33,7 @@ export const registeruser = async (useData: FieldValues) => {
 
       if (loginResult.success) {
         (await cookies()).set("accessToken", loginResult.data.accessToken);
+        (await cookies()).set("refreshToken", result.data.refreshToken)
       }
     }
 
@@ -55,7 +56,8 @@ const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,{
 })
 const result= await res.json();
 if(result.success){
-    (await cookies()).set("accessToken", result.data.accessToken)
+    (await cookies()).set("accessToken", result.data.accessToken);
+    (await cookies()).set("refreshToken", result.data.refreshToken)
 }
 
 
@@ -105,4 +107,26 @@ export const reChatChaTokenVerification = async(token:string)=>{
 
 export const logout = async()=>{
     (await cookies()).delete("accessToken")
+}
+
+
+export const getNewtoken= async()=>{
+  try{
+  
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: (await cookies()).get("refreshToken")!.value,
+        },
+      }
+    );
+
+    return res.json();
+  
+}
+  catch (error: any) {
+    return Error(error);
+  }
 }

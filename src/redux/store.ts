@@ -1,10 +1,35 @@
 import { configureStore } from '@reduxjs/toolkit'
-import createSlice from "./features/cartSlice"
+import createReducer from "./features/cartSlice"
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
+import storage from './storge'
+
+
+const persistCart = {
+  key: "cart",
+  storage,
+}
+
+const persistedReducer = persistReducer(persistCart, createReducer)
+
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      cart:createSlice,
-    }
+      cart: persistedReducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
   })
 }
 

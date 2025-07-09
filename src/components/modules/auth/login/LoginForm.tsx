@@ -23,6 +23,7 @@ import { loginSchema } from "./loginValidation";
 import { loginuser, reChatChaTokenVerification } from "@/services/AuthServices";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useState } from "react";
+import { useUser } from "@/context/UserContext";
 
 
 export default function LoginForm() {
@@ -30,6 +31,7 @@ export default function LoginForm() {
   const form = useForm({
     resolver: zodResolver(loginSchema)
   });
+  const {setIsLoading}= useUser()
   const searchform= useSearchParams();
   const redirect=searchform.get("redirecPath")
   const router = useRouter()
@@ -44,7 +46,7 @@ export default function LoginForm() {
   const onSubmit :SubmitHandler<FieldValues> = async (data) => {
  try{
 const res= await loginuser(data)
-console.log(res);
+setIsLoading(true);
 if(res?.success){
   form.reset();
   
@@ -53,7 +55,7 @@ if(res?.success){
     router.push(redirect)
   }
   else{
-    router.push("/profile")
+    router.push("/")
   }
 }
 else{

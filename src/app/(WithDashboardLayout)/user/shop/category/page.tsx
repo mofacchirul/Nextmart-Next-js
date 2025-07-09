@@ -5,8 +5,7 @@ import { getAllcategory } from '@/services/category';
 const ShopCategoryPage =async () => {
     const {data,meta} = await getAllcategory()
 
-    console.log(meta);
-    
+  
     return (
         <div>
             <CreateCategoryPage categories={data}></CreateCategoryPage>

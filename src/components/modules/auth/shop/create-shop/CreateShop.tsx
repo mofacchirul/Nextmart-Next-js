@@ -35,20 +35,20 @@ export default function CreateShopForm() {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
 const servicesOffered = data?.servicesOffered.split(",").map((service:string)=> service.trim())
 .filter((service:string)=>service !== "")
-console.log(data);
+
 
 const modifieData={
   ...data,
   servicesOffered:servicesOffered,
   establishedYear: Number(data?.establishedYear)
 }
-console.log(modifieData);
+
 try{
    const form= new FormData();
    form.append("data" ,JSON.stringify(modifieData));
    form.append("logo", imageFile[0] as File);
    const res = await createShop(form)
-   console.log(res);
+
    if(res.success){
   toast.success(res?.message)
     router.push("/")

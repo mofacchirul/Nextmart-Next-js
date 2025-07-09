@@ -142,7 +142,7 @@ const modifidata= {
       stock: parseInt(data.stock),
       weight: parseFloat(data.stock),
 }
-console.log(modifidata);
+
 
  const formData = new FormData();
     formData.append("data",JSON.stringify(modifidata));
@@ -150,7 +150,7 @@ console.log(modifidata);
     for (const file of imageFiles) {
       formData.append("images", file);
     }
-console.log(form);
+
 
 
 try{

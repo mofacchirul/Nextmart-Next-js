@@ -39,12 +39,10 @@ const DiscountModal = ({select}:ISelect) => {
          products:[...select],
  discountPercentage: parseFloat(data?.discountPercentage),
     }
-    console.log(modifiedData);
     
   try {
       const res = await addFlashSale(modifiedData);
-      console.log(res);
-      
+ 
       if (res.success) {
         toast.success(res.message);
         // setSelectedIds([]);
